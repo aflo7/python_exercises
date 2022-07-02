@@ -1,19 +1,22 @@
+from hashlib import new
 import os
-from cryptography.fernet import Fernet
-
+from turtle import update
+from BankUser import BankUser
 import firebase_admin
 from firebase_admin import credentials, db
 from dotenv import load_dotenv
-from regex import E
+
 load_dotenv()
 
 googleToken = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
-cryptoToken = os.environ.get("CRYPTOCODE")
+bank_password = os.environ.get("BANK-MANAGER-PASSWORD")
 cred = credentials.Certificate(googleToken)
-firebase_admin.initialize_app(cred, {
-    'databaseURL': 'https://bank-79eda-default-rtdb.firebaseio.com/'
-})
-bank_users = db.reference('/users')
+firebase_admin.initialize_app(
+    cred, {"databaseURL": "https://bank-79eda-default-rtdb.firebaseio.com/"}
+)
+# list of User objects. index starting at 0
+bank_users = db.reference("/users")
+
 
 def get_number_of_users():
     current_users = bank_users.get()
@@ -21,20 +24,61 @@ def get_number_of_users():
         return 0
     return len(current_users)
 
-def create_new_user(name=None, amount="0", membership_status=None):
+
+# accepts a BankUser object
+def create_new_user(u):
     size = get_number_of_users()
-    
-    bank_users.update({size: {
-        'name': name,
-        'amount': amount,
-        'membership_status': membership_status
-    }})
-    
 
-# def encrypt(message: bytes, key: bytes) -> bytes:
-#     return Fernet(key).encrypt(message)
+    bank_users.update(
+        {
+            size: {
+                "name": u.name,
+                "amount": u.amount,
+                "membership_status": u.membership_status,
+            }
+        }
+    )
 
-# def decrypt(token: bytes, key: bytes) -> bytes:
-#     return Fernet(key).decrypt(token)
 
-# create_new_user("Andres", "150", "silver")
+def read_user_data():
+    print("-----")
+    li = bank_users.get()
+
+    for user in li:
+        print(user)
+    print("-----")
+
+
+def delete_user(u):
+    li = bank_users.get()
+    for user in li:
+        if (
+            user["amount"] == u.amount
+            and user["membership_status"] == u.membership_status
+            and user["name"] == u.name
+        ):
+            li.remove(user)
+            break
+    bank_users.set(li)
+
+
+# update BankUser values, but only if you have a password. one password(bank_password) is able to update all user info
+# takes two objects
+def update_user_info(old_data, new_data):
+    p = input("Enter bank password: ")
+    if p != bank_password:
+        print("wrong password")
+        return
+    li = bank_users.get()
+
+    for user in li:
+        if (
+            user["amount"] == old_data.amount
+            and user["membership_status"] == old_data.membership_status
+            and user["name"] == old_data.name
+        ):
+            user["amount"] = new_data.amount
+            user["membership_status"] = new_data.membership_status
+            user["name"] = new_data.name
+            break
+    bank_users.set(li)
