@@ -1,6 +1,5 @@
-from hashlib import new
+
 import os
-from turtle import update
 from BankUser import BankUser
 import firebase_admin
 from firebase_admin import credentials, db
@@ -63,10 +62,9 @@ def delete_user(u):
 
 
 # update BankUser values, but only if you have a password. one password(bank_password) is able to update all user info
-# takes two objects
-def update_user_info(old_data, new_data):
-    p = input("Enter bank password: ")
-    if p != bank_password:
+# old_data and new_data are separate BankUser objects
+def update_user_info(password, old_data, new_data):
+    if password != bank_password:
         print("wrong password")
         return
     li = bank_users.get()
@@ -82,3 +80,4 @@ def update_user_info(old_data, new_data):
             user["name"] = new_data.name
             break
     bank_users.set(li)
+    
