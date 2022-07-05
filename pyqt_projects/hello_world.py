@@ -1,1 +1,0 @@
-from bank_backend.app import get_number_of_users

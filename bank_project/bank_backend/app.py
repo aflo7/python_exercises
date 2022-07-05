@@ -1,9 +1,9 @@
 
 import os
-from BankUser import BankUser
 import firebase_admin
 from firebase_admin import credentials, db
 from dotenv import load_dotenv
+from bank_backend.BankUser import BankUser
 
 load_dotenv()
 
@@ -80,4 +80,3 @@ def update_user_info(password, old_data, new_data):
             user["name"] = new_data.name
             break
     bank_users.set(li)
-    
