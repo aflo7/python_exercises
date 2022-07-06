@@ -3,7 +3,6 @@ import os
 import firebase_admin
 from firebase_admin import credentials, db
 from dotenv import load_dotenv
-from bank_backend.BankUser import BankUser
 
 load_dotenv()
 
@@ -65,8 +64,7 @@ def delete_user(u):
 # old_data and new_data are separate BankUser objects
 def update_user_info(password, old_data, new_data):
     if password != bank_password:
-        print("wrong password")
-        return
+        return 0
     li = bank_users.get()
 
     for user in li:
@@ -80,3 +78,4 @@ def update_user_info(password, old_data, new_data):
             user["name"] = new_data.name
             break
     bank_users.set(li)
+    return 1 #success
