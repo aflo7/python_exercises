@@ -1,6 +1,6 @@
 #write a function to calculate the factorial of a number
 # 5 = 5 *4*3*2*1
-def fact(num):
+def fact(num: int):
   if (num == 1):
     return 1
   else:
