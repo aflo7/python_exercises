@@ -1,11 +1,11 @@
 #write a function to calculate the factorial of a number
 # 5 = 5 *4*3*2*1
-def fact(num: int):
-  if (num == 1):
-    return 1
-  else:
-    return (num * fact(num-1))
-print(fact(3))
+# def fact(num: int):
+#   if (num == 1):
+#     return 1
+#   else:
+#     return (num * fact(num-1))
+# print(fact(3))
 
 # you're given an array of numbers. create a function to return the sum of all the numbers in the array.
 # arr = [1, 2, 3]
@@ -25,3 +25,6 @@ print(fact(3))
 #     else:
 #       return arr.pop(0) + recursiveSum(arr)
 # assert recursiveSum(arr2) == 26
+nums = [2,7,11,15]
+for i in nums:
+  print(i)
