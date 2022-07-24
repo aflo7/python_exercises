@@ -17,7 +17,7 @@
 
 # assert sum(arr) == 6
 
-# # now write the same function recursively
+# now write the same function recursively
 # arr2 = [20, 1, 2, 3]
 # def recursiveSum(arr):
 #     if (len(arr) == 1):
@@ -25,6 +25,8 @@
 #     else:
 #       return arr.pop(0) + recursiveSum(arr)
 # assert recursiveSum(arr2) == 26
-nums = [2,7,11,15]
-for i in nums:
-  print(i)
+
+
+# nums = [2,7,11,15]
+# for i in nums:
+#   print(i)
